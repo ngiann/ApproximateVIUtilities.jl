@@ -4,13 +4,15 @@ authors = ["ngiann <ngiann@gmail.com> and contributors"]
 version = "0.1.0"
 
 [deps]
+ArgCheck = "dce04be8-c92d-5529-be00-80e4d2c0e197"
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
+ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 ProgressMeter = "92933f4c-e287-5a05-a399-4b506db050ca"
 PyPlot = "d330b81b-6aea-500a-939a-2ce795aea3ee"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
-Symbolics = "0c5d862f-8b57-4792-8d23-62f2024744c7"
+StatsFuns = "4c63d2b9-4356-54db-8cca-17b64c39e42c"
 
 [compat]
 julia = "1"
