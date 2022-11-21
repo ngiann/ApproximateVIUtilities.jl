@@ -10,8 +10,6 @@ module ApproximateVIUtilities
 
     include("transform.jl")
 
-    # include("transform2.jl")
-
-    export plotellipse, numericalkld, convertdensity
+    export plotellipse, numericalkld, convertdensity, getsamplerbase
     
 end
