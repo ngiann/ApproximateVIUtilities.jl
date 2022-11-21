@@ -1,72 +1,51 @@
-getmaxmass()  = 1e10
-
-getminmass()  = 1e6
-
-getmaxef()    = 30.0
-
-getminef()    = 1.0
-
-sigmoid(x)    = 1.0 / (1 + exp(-x))
-
-invsigmoid(x) = log(x/(1-x))
-
-function transformx2mass(x)
-
-    sigmoid(x) * (getmaxmass() - getminmass()) + getminmass()
-
-end
-
-function transformx2efraction(x)
-
-    sigmoid(x) * (getmaxef() - getminef()) + getminef()
-
-end
-
-function transformmass2x(mass)
-
-    invsigmoid((mass - getminmass())/(getmaxmass() - getminmass()))
+function t2c(lower, upper)
     
-end
+    @argcheck lower < upper
 
-function transformefraction2x(ef)
+    if lower == -Inf && upper == Inf
+        return identity
+    end
 
-    invsigmoid((ef - getminef())/(getmaxef() - getminef()))
+    if upper == Inf
+        return x -> softplus(x) + lower
+    end
 
-end
+    if lower == -Inf
+        return x -> upper - softplus(-x)
+    end
 
-
-function buildjacobian()
-
-    @variables x y
-
-    g = [transformx2mass(x), transformx2efraction(y)]
-
-    J = Symbolics.jacobian(g, [x, y])
-
-    aux = Symbolics.build_function(J, x, y, expression=Val{false})
-
-    aux2 = Symbolics.eval(aux[1])
-
-    (arg1, arg2) -> aux2(arg1, arg2)
+    return x -> logistic(x) * (upper - lower) + lower
 
 end
 
 
-function convertdensity(logl)
+# analytical derivatives
 
-    logp(x, y) = logl([transformx2mass(x), transformx2efraction(y)])
+# dxsigmoid(x) = (1-sigmoid(x)) * sigmoid(x)
 
-    jac = buildjacobian()
+# dxt2c(x; lower = lower, upper = upper) = dxsigmoid(x) * (upper - lower)
 
-    (x, y) -> logp(x, y) + logdet(jac(x, y))
+
+function convertdensity(logl, lower = lower, upper = upper)
+
+    @assert(length(lower) == length(upper))
+
+    g = [t2c(l, u) for (l, u) in zip(lower, upper)]
+
+    G(X) = map((f,x) -> f(x), g, X)
+
+    logt(X) = logl(G(X))
+
+    jac(X)  = ForwardDiff.jacobian(G, X)
+
+    X -> logt(X) + logdet(jac(X))
+
+
+    # gdx = [x -> dxt2c(x, l, u) for (l,u) in zip(lower, upper)]
+
+    # jac(X) = map((f,x) -> f(x), gdx, X)
+    
+    # X -> logt(X) + sum(log.(jac(X))) 
 
 end
 
-
-function samplebase(q)
-
-    x = rand(q)
-
-    [transformx2mass(x[1]);transformx2efraction(x[2])]
-
-end
