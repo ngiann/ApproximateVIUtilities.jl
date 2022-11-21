@@ -3,15 +3,21 @@ function t2c(lower, upper)
     @argcheck lower < upper
 
     if lower == -Inf && upper == Inf
+    
         return identity
+    
     end
 
     if upper == Inf
+        
         return x -> softplus(x) + lower
+    
     end
 
     if lower == -Inf
+        
         return x -> upper - softplus(-x)
+
     end
 
     return x -> logistic(x) * (upper - lower) + lower
@@ -49,3 +55,13 @@ function convertdensity(logl, lower = lower, upper = upper)
 
 end
 
+
+function getsamplerbase(q, lower = lower, upper = upper)
+
+    g = [t2c(l, u) for (l, u) in zip(lower, upper)]
+
+    G(X) = map((f,x) -> f(x), g, X)
+
+    () -> G(rand(q))
+
+end
