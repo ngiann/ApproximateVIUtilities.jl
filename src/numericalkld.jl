@@ -4,7 +4,7 @@ function numericalkld(q::Distribution, logp::Function, numsamples = 10_000, seed
 
     Dkl = 0.0
 
-    @showprogress for __ in 1:numsamples
+    @showprogress "Approximating KLD" for __ in 1:numsamples
 
         x = rand(rg, q)
 
