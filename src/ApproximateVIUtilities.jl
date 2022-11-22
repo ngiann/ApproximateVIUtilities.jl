@@ -10,6 +10,8 @@ module ApproximateVIUtilities
 
     include("transform_symbolics.jl")
 
-    export numericalkld, convertdensity, samplebase#, getsamplerbase # plotellipse, 
+    include("importanceweights.jl")
+
+    export numericalkld, convertdensity, samplebase, importanceweights, getISmultinomial#, getsamplerbase # plotellipse, 
     
 end
