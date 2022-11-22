@@ -1,6 +1,6 @@
 module ApproximateVIUtilities
 
-    using ArgCheck, ProgressMeter, ForwardDiff, LinearAlgebra, Random, Printf, Distributions, Symbolics
+    using ArgCheck, ProgressMeter, ForwardDiff, LinearAlgebra, Random, Printf, Distributions, Symbolics, StatsFuns
 
     using StatsFuns: logistic, softplus
 
