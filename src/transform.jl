@@ -32,7 +32,7 @@ end
 # dxt2c(x; lower = lower, upper = upper) = dxsigmoid(x) * (upper - lower)
 
 
-function convertdensity(logl, lower = lower, upper = upper)
+function convertdensity2(logl, lower = lower, upper = upper)
 
     @assert(length(lower) == length(upper))
 

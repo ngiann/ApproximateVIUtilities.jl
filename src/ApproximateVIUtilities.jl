@@ -12,6 +12,8 @@ module ApproximateVIUtilities
 
     include("importanceweights.jl")
 
-    export numericalkld, convertdensity, samplebase, importanceweights, getISmultinomial#, getsamplerbase # plotellipse, 
+    include("transform.jl")
+
+    export numericalkld, convertdensity, convertdensity2, samplebase, importanceweights, getISmultinomial#, getsamplerbase # plotellipse, 
     
 end
