@@ -1,15 +1,15 @@
 module ApproximateVIUtilities
 
-    using ArgCheck, ProgressMeter, ForwardDiff, LinearAlgebra, Random, Printf, Distributions, PyPlot
+    using ArgCheck, ProgressMeter, ForwardDiff, LinearAlgebra, Random, Printf, Distributions, Symbolics
 
     using StatsFuns: logistic, softplus
 
     include("numericalkld.jl")
 
-    include("plotellipse.jl")
+    # include("plotellipse.jl")
 
-    include("transform.jl")
+    include("transform_symbolics.jl")
 
-    export plotellipse, numericalkld, convertdensity, getsamplerbase
+    export numericalkld, convertdensity, samplebase#, getsamplerbase # plotellipse, 
     
 end
